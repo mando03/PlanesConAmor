@@ -13,6 +13,9 @@ importers:
       astro:
         specifier: 5.16.6
         version: 5.16.6(@types/node@25.0.2)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.53.5)(typescript@5.9.3)
+      lucide-astro:
+        specifier: 0.556.0
+        version: 0.556.0(astro@5.16.6(@types/node@25.0.2)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.53.5)(typescript@5.9.3))
       tailwindcss:
         specifier: 4.1.18
         version: 4.1.18
@@ -57,7 +60,7 @@ importers:
         specifier: 16.5.0
         version: 16.5.0
       husky:
-        specifier: ^9.1.7
+        specifier: 9.1.7
         version: 9.1.7
       prettier:
         specifier: 3.7.4
@@ -3623,6 +3626,14 @@ packages:
       {
         integrity: sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==,
       }
+
+  lucide-astro@0.556.0:
+    resolution:
+      {
+        integrity: sha512-ugMjPb45AMfkLCaduNSbyy5NQEKvB1TxVVMmUS4S6L807PMESnX0Qp+DIKHjbyjJmPXOyLRbrzvR3YikTK7brg==,
+      }
+    peerDependencies:
+      astro: ">=2.7.1"
 
   magic-string@0.30.21:
     resolution:
@@ -7687,6 +7698,10 @@ snapshots:
   longest-streak@3.1.0: {}
 
   lru-cache@10.4.3: {}
+
+  lucide-astro@0.556.0(astro@5.16.6(@types/node@25.0.2)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.53.5)(typescript@5.9.3)):
+    dependencies:
+      astro: 5.16.6(@types/node@25.0.2)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.53.5)(typescript@5.9.3)
 
   magic-string@0.30.21:
     dependencies:
