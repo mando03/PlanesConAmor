@@ -1,0 +1,95 @@
+---
+import { ArrowRight, Sparkles } from "@lucide/astro";
+---
+
+<section
+  class="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-20"
+>
+  <!-- Gradient background -->
+  <div
+    class="absolute inset-0 bg-linear-to-br from-amber-50 via-rose-50 to-purple-50"
+  >
+  </div>
+
+  <!-- Decorative elements -->
+  <div
+    class="absolute top-20 left-10 h-72 w-72 rounded-full bg-amber-200/30 blur-3xl"
+  >
+  </div>
+  <div
+    class="absolute right-10 bottom-20 h-96 w-96 rounded-full bg-rose-200/30 blur-3xl"
+  >
+  </div>
+
+  <div class="relative z-10 mx-auto max-w-4xl">
+    <!-- Content -->
+    <div class="space-y-8 text-center">
+      <div
+        class="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-white/80 px-4 py-2 backdrop-blur-sm"
+      >
+        <Sparkles class="h-4 w-4 text-amber-600" />
+        <span class="font-cutive text-sm font-medium text-amber-900"
+          >Próximamente</span
+        >
+      </div>
+
+      <h1 class="font-fredericka text-5xl font-bold text-balance md:text-7xl">
+        <span
+          class="bg-linear-to-r from-amber-600 via-rose-600 to-purple-600 bg-clip-text text-transparent"
+        >
+          Crea recuerdos
+        </span>
+        <br />
+        que duran para siempre
+      </h1>
+
+      <p
+        class="font-cutive-mono mx-auto max-w-3xl text-xl leading-relaxed text-pretty text-gray-600 md:text-2xl"
+      >
+        Un libro interactivo 3D lleno de ideas para conectar con quienes más
+        amas. Cada página es una nueva aventura, cada momento una memoria para
+        atesorar.
+      </p>
+
+      <div class="flex flex-col justify-center gap-4 sm:flex-row">
+        <button
+          id="waitlist-button"
+          class="font-cutive-mono inline-flex h-14 items-center justify-center gap-2 rounded-md bg-linear-to-r from-amber-600 to-rose-600 px-8 text-lg font-bold text-white transition-all hover:from-amber-700 hover:to-rose-700"
+        >
+          Únete a la lista de espera
+          <ArrowRight class="h-5 w-5" />
+        </button>
+        <button
+          id="features-button"
+          class="font-cutive-mono inline-flex h-14 items-center justify-center rounded-md border-2 border-gray-300 bg-transparent px-8 text-lg font-bold transition-all hover:bg-gray-50"
+        >
+          Descubre más
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Smooth scroll to waitlist section
+  const waitlistButton = document.getElementById("waitlist-button");
+  if (waitlistButton) {
+    waitlistButton.addEventListener("click", () => {
+      const waitlistSection = document.getElementById("waitlist");
+      if (waitlistSection) {
+        waitlistSection.scrollIntoView({ behavior: "smooth" });
+      }
+    });
+  }
+
+  // Smooth scroll to features section
+  const featuresButton = document.getElementById("features-button");
+  if (featuresButton) {
+    featuresButton.addEventListener("click", () => {
+      const featuresSection = document.getElementById("features");
+      if (featuresSection) {
+        featuresSection.scrollIntoView({ behavior: "smooth" });
+      }
+    });
+  }
+</script>
