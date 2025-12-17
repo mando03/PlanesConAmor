@@ -7,15 +7,15 @@ settings:
 importers:
   .:
     dependencies:
+      "@lucide/astro":
+        specifier: ^0.561.0
+        version: 0.561.0(astro@5.16.6(@types/node@25.0.2)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.53.5)(typescript@5.9.3))
       "@tailwindcss/vite":
         specifier: 4.1.18
         version: 4.1.18(vite@6.4.1(@types/node@25.0.2)(jiti@2.6.1)(lightningcss@1.30.2))
       astro:
         specifier: 5.16.6
         version: 5.16.6(@types/node@25.0.2)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.53.5)(typescript@5.9.3)
-      lucide-astro:
-        specifier: 0.556.0
-        version: 0.556.0(astro@5.16.6(@types/node@25.0.2)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.53.5)(typescript@5.9.3))
       tailwindcss:
         specifier: 4.1.18
         version: 4.1.18
@@ -858,6 +858,14 @@ packages:
       {
         integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==,
       }
+
+  "@lucide/astro@0.561.0":
+    resolution:
+      {
+        integrity: sha512-VpktmKSiXJ+/u57/yLd2/jT3T4uRUljoM/2pOUnt4w7E899SROQ7eZxoOBXpUnTkTVxIwayrNIoOuUeWy+7UjQ==,
+      }
+    peerDependencies:
+      astro: ^4 || ^5
 
   "@napi-rs/wasm-runtime@0.2.12":
     resolution:
@@ -3627,14 +3635,6 @@ packages:
         integrity: sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==,
       }
 
-  lucide-astro@0.556.0:
-    resolution:
-      {
-        integrity: sha512-ugMjPb45AMfkLCaduNSbyy5NQEKvB1TxVVMmUS4S6L807PMESnX0Qp+DIKHjbyjJmPXOyLRbrzvR3YikTK7brg==,
-      }
-    peerDependencies:
-      astro: ">=2.7.1"
-
   magic-string@0.30.21:
     resolution:
       {
@@ -5904,6 +5904,10 @@ snapshots:
       "@jridgewell/resolve-uri": 3.1.2
       "@jridgewell/sourcemap-codec": 1.5.5
 
+  "@lucide/astro@0.561.0(astro@5.16.6(@types/node@25.0.2)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.53.5)(typescript@5.9.3))":
+    dependencies:
+      astro: 5.16.6(@types/node@25.0.2)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.53.5)(typescript@5.9.3)
+
   "@napi-rs/wasm-runtime@0.2.12":
     dependencies:
       "@emnapi/core": 1.7.1
@@ -7698,10 +7702,6 @@ snapshots:
   longest-streak@3.1.0: {}
 
   lru-cache@10.4.3: {}
-
-  lucide-astro@0.556.0(astro@5.16.6(@types/node@25.0.2)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.53.5)(typescript@5.9.3)):
-    dependencies:
-      astro: 5.16.6(@types/node@25.0.2)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.53.5)(typescript@5.9.3)
 
   magic-string@0.30.21:
     dependencies:
