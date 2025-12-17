@@ -1,1 +1,37 @@
 @import "tailwindcss";
+
+@font-face {
+  font-family: "Cutive Mono";
+  src: url("/fonts/CutiveMono.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Fredericka the Great";
+  src: url("/fonts/FrederickatheGreat.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cutive";
+  src: url("/fonts/Cutive.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.font-cutive-mono {
+  font-family: "Cutive Mono", monospace;
+}
+
+.font-fredericka {
+  font-family: "Fredericka the Great", cursive;
+}
+
+.font-cutive {
+  font-family: "Cutive", serif;
+}
