@@ -1,0 +1,83 @@
+---
+import { Baby, CircleUser, Heart, User, Users } from "@lucide/astro";
+
+const categories = [
+  {
+    icon: Baby,
+    label: "Para mi hijo",
+    gradient: "from-blue-400 to-cyan-400",
+  },
+  {
+    icon: Heart,
+    label: "Para mi hija",
+    gradient: "from-pink-400 to-rose-400",
+  },
+  {
+    icon: Heart,
+    label: "Para mi pareja",
+    gradient: "from-red-400 to-pink-500",
+  },
+  {
+    icon: Users,
+    label: "Para la familia",
+    gradient: "from-amber-400 to-orange-400",
+  },
+  {
+    icon: CircleUser,
+    label: "Para mi padre",
+    gradient: "from-slate-400 to-slate-600",
+  },
+  {
+    icon: CircleUser,
+    label: "Para mi madre",
+    gradient: "from-purple-400 to-pink-400",
+  },
+  {
+    icon: User,
+    label: "Para mí mismo",
+    gradient: "from-emerald-400 to-teal-400",
+  },
+];
+---
+
+<section class="bg-linear-to-b from-white to-amber-50/30 px-4 py-24">
+  <div class="mx-auto max-w-6xl">
+    <div class="mx-auto mb-16 max-w-3xl text-center">
+      <h2
+        class="font-fredericka mb-6 text-4xl font-bold text-balance md:text-5xl"
+      >
+        Elige para quién es{" "}
+        <span
+          class="bg-linear-to-r from-amber-600 to-rose-600 bg-clip-text text-transparent"
+          >tu libro</span
+        >
+      </h2>
+      <p class="font-cutive text-xl text-pretty text-gray-600">
+        Cada relación es única. Personaliza tu libro según la persona especial
+        con quien quieres crear recuerdos
+      </p>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6 lg:grid-cols-4">
+      {
+        categories.map((category) => (
+          <div class="group relative cursor-pointer rounded-2xl border-2 border-gray-200 bg-white p-6 transition-all duration-300 hover:-translate-y-2 hover:border-transparent hover:shadow-xl">
+            <div
+              class={`absolute inset-0 rounded-2xl bg-linear-to-br ${category.gradient} opacity-0 transition-opacity group-hover:opacity-10`}
+            />
+            <div class="relative flex flex-col items-center gap-3">
+              <div
+                class={`flex h-16 w-16 items-center justify-center rounded-xl bg-linear-to-br ${category.gradient} transition-transform group-hover:scale-110`}
+              >
+                <category.icon class="h-8 w-8 text-white" />
+              </div>
+              <span class="font-cutive text-center text-sm font-semibold md:text-base">
+                {category.label}
+              </span>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
