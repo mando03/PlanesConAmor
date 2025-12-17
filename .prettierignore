@@ -1,0 +1,5 @@
+// Ignore built files and dependencies
+dist
+
+// dependencies
+node_modules
