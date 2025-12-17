@@ -1,13 +1,13 @@
 ---
-import { Clock, Calendar, CheckCircle2 } from "@lucide/astro";
+import { Calendar, CircleCheck, Clock } from "@lucide/astro";
 
 // TODO: Añadir imágenes en src/assets/images/ con los siguientes nombres:
 // - starry-dinner.png (Cena bajo las estrellas - picnic con carpa y cielo estrellado)
 // - nature-adventure.png (Aventura en naturaleza - sendero natural)
 // - family-games.png (Juegos en familia - juegos de mesa)
-// import starryDinner from "../assets/images/starry-dinner.png";
-// import natureAdventure from "../assets/images/nature-adventure.png";
-// import familyGames from "../assets/images/family-games.png";
+import familyGames from "../assets/images/family-games.png";
+import natureAdventure from "../assets/images/nature-adventure.png";
+import starryDinner from "../assets/images/starry-dinner.png";
 
 const cardExamples = [
   {
@@ -18,7 +18,7 @@ const cardExamples = [
     statusLabel: "Pendiente",
     icon: Clock,
     color: "bg-slate-100 text-slate-700 border-slate-300",
-    // image: starryDinner,
+    image: starryDinner,
     imageAlt: "Picnic bajo las estrellas con carpa iluminada",
   },
   {
@@ -30,7 +30,7 @@ const cardExamples = [
     date: "15 de Marzo",
     icon: Calendar,
     color: "bg-amber-100 text-amber-700 border-amber-300",
-    // image: natureAdventure,
+    image: natureAdventure,
     imageAlt: "Sendero natural en el bosque",
   },
   {
@@ -39,9 +39,9 @@ const cardExamples = [
       "Desconéctense de la tecnología y disfruten de juegos de mesa juntos",
     status: "completed",
     statusLabel: "Realizada",
-    icon: CheckCircle2,
+    icon: CircleCheck,
     color: "bg-emerald-100 text-emerald-700 border-emerald-300",
-    // image: familyGames,
+    image: familyGames,
     imageAlt: "Juegos de mesa familiares",
   },
 ];
@@ -84,18 +84,11 @@ const cardExamples = [
 
               {/* Imagen ilustrativa de la idea */}
               <div class="overflow-hidden rounded-lg">
-                {/* TODO: Descomentar cuando las imágenes estén disponibles */}
-                {/* <img
+                <img
                   src={card.image.src}
                   alt={card.imageAlt}
                   class="h-48 w-full object-cover"
-                /> */}
-                {/* Placeholder temporal mientras se agregan las imágenes */}
-                <div class="flex h-48 w-full items-center justify-center rounded-lg bg-linear-to-br from-amber-100 to-rose-100">
-                  <span class="font-cutive text-center text-sm text-gray-500">
-                    {card.imageAlt}
-                  </span>
-                </div>
+                />
               </div>
 
               <p class="font-cutive text-sm leading-relaxed text-gray-600">
