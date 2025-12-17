@@ -1,0 +1,30 @@
+---
+import { Heart } from "@lucide/astro";
+---
+
+<footer class="border-t bg-white px-4 py-12">
+  <div class="mx-auto max-w-6xl text-center">
+    <div class="mb-4 flex items-center justify-center gap-2">
+      <div
+        class="flex h-8 w-8 items-center justify-center rounded-lg bg-linear-to-br from-amber-400 to-rose-400"
+      >
+        <Heart class="h-5 w-5 fill-white text-white" />
+      </div>
+      <span class="font-fredericka text-xl font-bold">Planes con Amor</span>
+    </div>
+    <p class="font-cutive mb-2 text-sm">
+      Creando momentos que importan, una pagina a la vez
+    </p>
+    <p class="font-cutive text-xs">
+      &copy; {new Date().getFullYear()} Planes con Amor. Todos los derechos reservados.
+    </p>
+    <p class="font-cutive-mono text-sm">
+      Desarrollado por <a
+        href="https://www.orbitstudio.tech"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="underline transition-colors hover:text-amber-600">OrbitStudio</a
+      >
+    </p>
+  </div>
+</footer>
