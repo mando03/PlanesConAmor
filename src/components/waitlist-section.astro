@@ -1,0 +1,124 @@
+---
+import { Mail, Sparkles } from "@lucide/astro";
+---
+
+<section
+  id="waitlist"
+  class="relative overflow-hidden bg-linear-to-br from-amber-50 via-rose-50 to-purple-50 px-4 py-24"
+>
+  <div class="absolute top-0 left-0 h-full w-full">
+    <div
+      class="absolute top-20 left-20 h-64 w-64 rounded-full bg-amber-200/20 blur-3xl"
+    >
+    </div>
+    <div
+      class="absolute right-20 bottom-20 h-80 w-80 rounded-full bg-rose-200/20 blur-3xl"
+    >
+    </div>
+  </div>
+
+  <div class="relative z-10 mx-auto max-w-3xl">
+    <div class="mb-12 text-center">
+      <div
+        class="mb-6 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-white/80 px-4 py-2 backdrop-blur-sm"
+      >
+        <Sparkles class="h-4 w-4 text-amber-600" />
+        <span class="font-cutive-mono text-sm font-medium text-amber-900"
+          >Acceso anticipado</span
+        >
+      </div>
+
+      <h2
+        class="font-fredericka mb-6 text-4xl font-bold text-balance md:text-6xl"
+      >
+        Sé de los primeros en{" "}
+        <span
+          class="bg-linear-to-r from-amber-600 to-rose-600 bg-clip-text text-transparent"
+        >
+          crear recuerdos
+        </span>
+      </h2>
+      <p class="font-cutive text-xl text-pretty text-gray-600">
+        Únete a nuestra lista de espera y recibe noticas, actualizaciones y
+        acceso exclusivo cuando lancemos.
+      </p>
+    </div>
+
+    <!-- Formulario -->
+    <form
+      id="waitlist-form"
+      class="mx-auto flex max-w-xl flex-col gap-3 sm:flex-row"
+    >
+      <div class="relative flex-1">
+        <Mail
+          class="absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 text-gray-500"
+        />
+        <input
+          type="email"
+          id="email-input"
+          placeholder="tu@email.com"
+          required
+          class="font-cutive h-14 w-full rounded-md border-2 border-gray-300 pr-4 pl-12 text-base transition-colors outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-200"
+        />
+      </div>
+      <button
+        type="submit"
+        class="font-cutive h-14 rounded-md bg-linear-to-r from-amber-600 to-rose-600 px-8 text-base font-medium text-white transition-all hover:from-amber-700 hover:to-rose-700"
+      >
+        Unirme ahora
+      </button>
+    </form>
+
+    <!-- Mensaje de éxito (oculto por defecto) -->
+    <div
+      id="success-message"
+      class="mx-auto hidden max-w-xl rounded-2xl border-2 border-emerald-200 bg-white/80 p-8 text-center backdrop-blur-sm"
+    >
+      <div
+        class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-linear-to-br from-emerald-400 to-teal-400"
+      >
+        <Sparkles class="h-8 w-8 text-white" />
+      </div>
+      <h3 class="font-fredericka mb-2 text-2xl font-bold">
+        ¡Bienvenido a la comunidad!
+      </h3>
+      <p class="font-cutive text-gray-600">
+        Te notificaremos cuando estemos listos para lanzar. Revisa tu correo
+        para recibir tus primeras ideas de recuerdos.
+      </p>
+    </div>
+
+    <div class="mt-12 text-center">
+      <p class="font-cutive text-sm text-gray-600">
+        Únete a <span class="font-bold text-gray-900">500+</span> personas esperando
+        crear recuerdos inolvidables
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Manejo del formulario de waitlist
+  const form = document.getElementById("waitlist-form");
+  const successMessage = document.getElementById("success-message");
+  const emailInput = document.getElementById("email-input") as HTMLInputElement;
+
+  if (form && successMessage && emailInput) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const email = emailInput.value;
+
+      // TODO: Añadir integración con backend para guardar el email
+      // Ejemplo: await fetch('/api/waitlist', { method: 'POST', body: JSON.stringify({ email }) })
+      console.log("[Waitlist] Email:", email);
+
+      // Ocultar formulario y mostrar mensaje de éxito
+      form.classList.add("hidden");
+      successMessage.classList.remove("hidden");
+
+      // Opcional: Resetear el formulario si el usuario quiere volver
+      // emailInput.value = '';
+    });
+  }
+</script>
