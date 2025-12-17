@@ -1,0 +1,121 @@
+---
+import { BookOpen, CalendarCheck, Camera, Heart } from "@lucide/astro";
+
+const features = [
+  {
+    icon: BookOpen,
+    title: "Efecto 3D Interactivo",
+    description:
+      "Pasa las páginas y disfruta de una experiencia inmersiva con efectos 3D que hacen cada momento más especial",
+  },
+  {
+    icon: Heart,
+    title: "Ideas Inspiradoras",
+    description:
+      "Cada cita es una tarjeta con una idea concreta para crear momentos únicos con tus seres queridos",
+  },
+  {
+    icon: Camera,
+    title: "Captura tus Recuerdos",
+    description:
+      "Añade notas personales y fotos de cada experiencia para preservar esos momentos para siempre",
+  },
+  {
+    icon: CalendarCheck,
+    title: "Seguimiento de Progreso",
+    description:
+      "Marca cada idea como pendiente, agendada o realizada. Celebra cada recuerdo que creas",
+  },
+];
+---
+
+<section id="features" class="bg-white px-4 py-24">
+  <div class="mx-auto max-w-6xl">
+    <div class="mx-auto mb-16 max-w-3xl text-center">
+      <h2
+        class="font-fredericka mb-6 text-4xl font-bold text-balance md:text-5xl"
+      >
+        Un libro diseñado para{" "}
+        <span
+          class="bg-linear-to-r from-amber-600 to-rose-600 bg-clip-text text-transparent"
+          >conectar</span
+        >
+      </h2>
+      <p class="font-cutive text-xl text-pretty text-gray-600">
+        Más que un libro, es tu compañero en la creación de momentos
+        inolvidables
+      </p>
+    </div>
+
+    <!-- Bento Grid Layout -->
+    <div class="grid auto-rows-[minmax(280px,auto)] gap-6 md:grid-cols-3">
+      <!-- Feature 1 - Spans 2 columns -->
+      <div
+        class="group rounded-2xl border-2 border-gray-200 p-8 transition-all duration-300 hover:-translate-y-1 hover:border-amber-300 hover:shadow-lg md:col-span-2"
+      >
+        <div
+          class="mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-linear-to-br from-amber-100 to-rose-100 transition-transform group-hover:scale-110"
+        >
+          <BookOpen class="h-7 w-7 text-amber-700" />
+        </div>
+        <h3 class="font-fredericka mb-3 text-2xl font-bold">
+          {features[0].title}
+        </h3>
+        <p class="font-cutive leading-relaxed text-gray-600">
+          {features[0].description}
+        </p>
+      </div>
+
+      <!-- Feature 2 - Single column -->
+      <div
+        class="group rounded-2xl border-2 border-gray-200 p-8 transition-all duration-300 hover:-translate-y-1 hover:border-amber-300 hover:shadow-lg"
+      >
+        <div
+          class="mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-linear-to-br from-amber-100 to-rose-100 transition-transform group-hover:scale-110"
+        >
+          <Heart class="h-7 w-7 text-amber-700" />
+        </div>
+        <h3 class="font-fredericka mb-3 text-2xl font-bold">
+          {features[1].title}
+        </h3>
+        <p class="font-cutive leading-relaxed text-gray-600">
+          {features[1].description}
+        </p>
+      </div>
+
+      <!-- Feature 3 - Single column -->
+      <div
+        class="group rounded-2xl border-2 border-gray-200 p-8 transition-all duration-300 hover:-translate-y-1 hover:border-amber-300 hover:shadow-lg"
+      >
+        <div
+          class="mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-linear-to-br from-amber-100 to-rose-100 transition-transform group-hover:scale-110"
+        >
+          <Camera class="h-7 w-7 text-amber-700" />
+        </div>
+        <h3 class="font-fredericka mb-3 text-2xl font-bold">
+          {features[2].title}
+        </h3>
+        <p class="font-cutive leading-relaxed text-gray-600">
+          {features[2].description}
+        </p>
+      </div>
+
+      <!-- Feature 4 - Spans 2 columns -->
+      <div
+        class="group rounded-2xl border-2 border-gray-200 p-8 transition-all duration-300 hover:-translate-y-1 hover:border-amber-300 hover:shadow-lg md:col-span-2"
+      >
+        <div
+          class="mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-linear-to-br from-amber-100 to-rose-100 transition-transform group-hover:scale-110"
+        >
+          <CalendarCheck class="h-7 w-7 text-amber-700" />
+        </div>
+        <h3 class="font-fredericka mb-3 text-2xl font-bold">
+          {features[3].title}
+        </h3>
+        <p class="font-cutive leading-relaxed text-gray-600">
+          {features[3].description}
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
