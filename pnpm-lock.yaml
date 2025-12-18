@@ -8,17 +8,20 @@ importers:
   .:
     dependencies:
       "@astrojs/vercel":
-        specifier: ^9.0.2
+        specifier: 9.0.2
         version: 9.0.2(astro@5.16.6(@types/node@25.0.2)(@vercel/functions@2.2.13)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.53.5)(typescript@5.9.3))(rollup@4.53.5)
       "@lucide/astro":
-        specifier: ^0.561.0
+        specifier: 0.561.0
         version: 0.561.0(astro@5.16.6(@types/node@25.0.2)(@vercel/functions@2.2.13)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.53.5)(typescript@5.9.3))
       "@supabase/supabase-js":
-        specifier: ^2.88.0
+        specifier: 2.88.0
         version: 2.88.0
       "@tailwindcss/vite":
         specifier: 4.1.18
         version: 4.1.18(vite@6.4.1(@types/node@25.0.2)(jiti@2.6.1)(lightningcss@1.30.2))
+      "@vercel/analytics":
+        specifier: 1.6.1
+        version: 1.6.1
       astro:
         specifier: 5.16.6
         version: 5.16.6(@types/node@25.0.2)(@vercel/functions@2.2.13)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.53.5)(typescript@5.9.3)
