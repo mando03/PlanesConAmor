@@ -46,42 +46,63 @@ import { Mail, Sparkles, X } from "@lucide/astro";
     </div>
 
     <!-- Formulario -->
-    <form
-      id="waitlist-form"
-      class="mx-auto flex max-w-xl flex-col gap-3 sm:flex-row"
-    >
-      <div class="relative flex-1">
-        <Mail
-          class="absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 text-gray-500"
-        />
+    <form id="waitlist-form" class="mx-auto max-w-xl space-y-4">
+      <div class="flex flex-col gap-3 sm:flex-row">
+        <div class="relative flex-1">
+          <Mail
+            class="absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 text-gray-500"
+          />
+          <input
+            id="email-input"
+            type="email"
+            name="email"
+            placeholder="tu@email.com"
+            required
+            disabled
+            class="font-cutive-mono h-14 w-full rounded-md border-2 border-gray-300 pr-4 pl-12 text-xl transition-colors outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-200 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-500 md:text-2xl"
+          />
+        </div>
+
+        {/* Honeypot: campo oculto para detectar bots */}
         <input
-          id="email-input"
-          type="email"
-          name="email"
-          placeholder="tu@email.com"
-          required
-          class="font-cutive-mono h-14 w-full rounded-md border-2 border-gray-300 pr-4 pl-12 text-xl transition-colors outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-200 md:text-2xl"
+          type="text"
+          name="website"
+          tabindex="-1"
+          autocomplete="off"
+          class="absolute -left-2499.75 h-0 w-0 opacity-0"
+          aria-hidden="true"
         />
+
+        <button
+          id="submit-button"
+          type="submit"
+          disabled
+          class="font-cutive h-14 rounded-md bg-linear-to-r from-amber-600 to-rose-600 px-8 text-base font-medium text-white transition-all hover:from-amber-700 hover:to-rose-700 disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          <span id="button-text">Unirme ahora</span>
+          <span id="button-loading" class="hidden">Enviando...</span>
+        </button>
       </div>
 
-      {/* Honeypot: campo oculto para detectar bots */}
-      <input
-        type="text"
-        name="website"
-        tabindex="-1"
-        autocomplete="off"
-        class="absolute -left-2499.75 h-0 w-0 opacity-0"
-        aria-hidden="true"
-      />
-
-      <button
-        id="submit-button"
-        type="submit"
-        class="font-cutive h-14 rounded-md bg-linear-to-r from-amber-600 to-rose-600 px-8 text-base font-medium text-white transition-all hover:from-amber-700 hover:to-rose-700 disabled:cursor-not-allowed disabled:opacity-50"
-      >
-        <span id="button-text">Unirme ahora</span>
-        <span id="button-loading" class="hidden">Enviando...</span>
-      </button>
+      {/* Checkbox de aceptación */}
+      <div class="flex items-start gap-3">
+        <input
+          id="privacy-checkbox"
+          type="checkbox"
+          class="mt-1 h-5 w-5 cursor-pointer rounded border-gray-300 text-amber-600 transition-colors focus:ring-2 focus:ring-amber-200"
+        />
+        <label for="privacy-checkbox" class="font-cutive text-sm text-gray-700">
+          Al registrarme, proporciono mi correo para la lista de espera y acepto
+          el{" "}
+          <button
+            id="privacy-link"
+            type="button"
+            class="font-medium text-amber-600 underline transition-colors hover:text-amber-700"
+          >
+            Aviso de Privacidad
+          </button>.
+        </label>
+      </div>
     </form>
 
     <div class="mt-12 text-center">
@@ -105,7 +126,7 @@ import { Mail, Sparkles, X } from "@lucide/astro";
   >
     {/* Botón cerrar */}
     <button
-      id="close-modal"
+      id="close-result-modal"
       type="button"
       class="absolute top-4 right-4 rounded-full p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
       aria-label="Cerrar"
@@ -118,10 +139,246 @@ import { Mail, Sparkles, X } from "@lucide/astro";
   </div>
 </div>
 
+<!-- Modal de Aviso de Privacidad -->
+<div
+  id="privacy-modal"
+  class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
+  role="dialog"
+  aria-modal="true"
+>
+  <div
+    class="animate-fade-in relative max-h-[80vh] w-full max-w-2xl overflow-y-auto rounded-2xl border-2 bg-white p-8 shadow-2xl"
+  >
+    {/* Botón cerrar */}
+    <button
+      id="close-privacy-modal"
+      type="button"
+      class="absolute top-4 right-4 rounded-full p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
+      aria-label="Cerrar"
+    >
+      <X class="h-5 w-5" />
+    </button>
+
+    {/* Contenido del Aviso de Privacidad */}
+    <div id="privacy-content" class="space-y-6">
+      <div>
+        <h3 class="font-fredericka mb-2 text-3xl font-bold text-gray-900">
+          Aviso de Privacidad
+        </h3>
+        <p class="font-cutive text-sm text-gray-500">
+          Lista de espera y Analíticas
+        </p>
+        <p class="font-cutive mt-2 text-sm text-gray-500">
+          Última actualización: 18 de diciembre de 2025
+        </p>
+      </div>
+
+      <div>
+        <h4 class="font-fredericka mb-2 text-xl font-bold text-gray-900">
+          1) Responsable
+        </h4>
+        <p class="font-cutive text-sm leading-relaxed text-gray-700">
+          OrbitStudio (el "Responsable").<br />
+          Contacto: <a
+            href="mailto:contact@orbitstudio.tech"
+            class="text-amber-600 underline hover:text-amber-700"
+            >contact@orbitstudio.tech</a
+          >
+        </p>
+      </div>
+
+      <div>
+        <h4 class="font-fredericka mb-2 text-xl font-bold text-gray-900">
+          2) Datos que tratamos
+        </h4>
+        <div class="space-y-3">
+          <div>
+            <p class="font-cutive mb-1 text-sm font-semibold text-gray-800">
+              a) Datos que proporcionas directamente (waitlist):
+            </p>
+            <ul class="font-cutive ml-6 list-disc text-sm text-gray-700">
+              <li>Correo electrónico.</li>
+            </ul>
+          </div>
+          <div>
+            <p class="font-cutive mb-1 text-sm font-semibold text-gray-800">
+              b) Datos técnicos por operación/seguridad del sitio (necesarios):
+            </p>
+            <ul class="font-cutive ml-6 list-disc text-sm text-gray-700">
+              <li>
+                Registros técnicos del hosting (por ejemplo: dirección IP,
+                user-agent, fecha/hora, URL solicitada, y metadatos de conexión)
+                para operación y seguridad.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <p class="font-cutive mb-1 text-sm font-semibold text-gray-800">
+              c) Datos de uso para analíticas (opcionales, solo con
+              consentimiento):
+            </p>
+            <p class="font-cutive mb-2 text-sm text-gray-700">
+              Si aceptas analíticas, se cargará DataFast y podrá tratar datos
+              como:
+            </p>
+            <ul class="font-cutive ml-6 list-disc text-sm text-gray-700">
+              <li>Páginas visitadas e interacción (eventos básicos).</li>
+              <li>Información del navegador/dispositivo.</li>
+              <li>IP y/o identificadores/cookies asociados a medición.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="font-fredericka mb-2 text-xl font-bold text-gray-900">
+          3) Finalidades
+        </h4>
+        <div class="space-y-3">
+          <div>
+            <p class="font-cutive mb-1 text-sm font-semibold text-gray-800">
+              Finalidades primarias (necesarias):
+            </p>
+            <ul class="font-cutive ml-6 list-disc text-sm text-gray-700">
+              <li>Registrarte en la lista de espera.</li>
+              <li>
+                Enviarte correos relacionados con el lanzamiento
+                (actualizaciones, invitaciones, acceso anticipado).
+              </li>
+            </ul>
+          </div>
+          <div>
+            <p class="font-cutive mb-1 text-sm font-semibold text-gray-800">
+              Finalidades técnicas (necesarias):
+            </p>
+            <ul class="font-cutive ml-6 list-disc text-sm text-gray-700">
+              <li>
+                Operación, disponibilidad y seguridad del sitio (incluye
+                prevención de abuso).
+              </li>
+            </ul>
+          </div>
+          <div>
+            <p class="font-cutive mb-1 text-sm font-semibold text-gray-800">
+              Finalidad secundaria (opcional):
+            </p>
+            <ul class="font-cutive ml-6 list-disc text-sm text-gray-700">
+              <li>
+                Medición del uso del sitio para mejorar la landing (DataFast),
+                solo si otorgas tu consentimiento.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="font-fredericka mb-2 text-xl font-bold text-gray-900">
+          4) Consentimiento para analíticas (DataFast)
+        </h4>
+        <ul class="font-cutive ml-6 list-disc space-y-1 text-sm text-gray-700">
+          <li>
+            DataFast solo se carga si aceptas en el banner/gestor de
+            consentimiento.
+          </li>
+          <li>
+            Si no aceptas, la landing seguirá funcionando; únicamente no se
+            generarán métricas de analítica.
+          </li>
+          <li>
+            Puedes retirar tu consentimiento cambiando tus preferencias de
+            cookies/consentimiento (si el sitio ofrece el botón de
+            "Preferencias") o eliminando cookies desde tu navegador.
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="font-fredericka mb-2 text-xl font-bold text-gray-900">
+          5) Proveedores (encargados)
+        </h4>
+        <p class="font-cutive mb-2 text-sm text-gray-700">
+          Usamos proveedores que tratan datos por cuenta del Responsable:
+        </p>
+        <ul class="font-cutive ml-6 list-disc space-y-1 text-sm text-gray-700">
+          <li>
+            Supabase: almacenamiento/gestión de la lista de espera (correo).
+          </li>
+          <li>
+            Vercel: hosting e infraestructura, incluyendo registros técnicos
+            necesarios.
+          </li>
+          <li>DataFast (datafa.st): analíticas solo si el usuario acepta.</li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="font-fredericka mb-2 text-xl font-bold text-gray-900">
+          6) Transferencias
+        </h4>
+        <p class="font-cutive text-sm text-gray-700">
+          No vendemos tu información. Solo se comparte con los proveedores
+          anteriores para operar la lista de espera, el sitio y (si aceptas)
+          analíticas.
+        </p>
+      </div>
+
+      <div>
+        <h4 class="font-fredericka mb-2 text-xl font-bold text-gray-900">
+          7) Conservación
+        </h4>
+        <ul class="font-cutive ml-6 list-disc space-y-1 text-sm text-gray-700">
+          <li>
+            Correo (waitlist): hasta cumplir la finalidad o hasta que solicites
+            baja/eliminación, lo que ocurra primero.
+          </li>
+          <li>
+            Logs técnicos: por periodos limitados según necesidades de
+            seguridad/operación.
+          </li>
+          <li>
+            Analíticas (si aceptas): por el periodo configurado en la
+            herramienta/proveedor.
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="font-fredericka mb-2 text-xl font-bold text-gray-900">
+          8) Derechos ARCO y revocación
+        </h4>
+        <p class="font-cutive mb-2 text-sm text-gray-700">
+          Puedes ejercer ARCO y/o revocar tu consentimiento escribiendo a <a
+            href="mailto:contact@orbitstudio.tech"
+            class="text-amber-600 underline hover:text-amber-700"
+            >contact@orbitstudio.tech</a
+          >, indicando:
+        </p>
+        <ul class="font-cutive ml-6 list-disc space-y-1 text-sm text-gray-700">
+          <li>El correo con el que te registraste,</li>
+          <li>Qué derecho deseas ejercer,</li>
+          <li>Descripción clara de tu solicitud.</li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="font-fredericka mb-2 text-xl font-bold text-gray-900">
+          9) Cambios al Aviso
+        </h4>
+        <p class="font-cutive text-sm text-gray-700">
+          Este Aviso puede actualizarse. La versión vigente se publicará en la
+          landing con su fecha de actualización.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
   import { actions } from "astro:actions";
 
   const form = document.getElementById("waitlist-form") as HTMLFormElement;
+  const emailInput = document.getElementById("email-input") as HTMLInputElement;
   const submitButton = document.getElementById(
     "submit-button"
   ) as HTMLButtonElement;
@@ -129,9 +386,50 @@ import { Mail, Sparkles, X } from "@lucide/astro";
   const buttonLoading = document.getElementById(
     "button-loading"
   ) as HTMLElement;
-  const modal = document.getElementById("result-modal") as HTMLElement;
+  const privacyCheckbox = document.getElementById(
+    "privacy-checkbox"
+  ) as HTMLInputElement;
+  const privacyLink = document.getElementById(
+    "privacy-link"
+  ) as HTMLButtonElement;
+
+  // Modales
+  const resultModal = document.getElementById("result-modal") as HTMLElement;
   const modalContent = document.getElementById("modal-content") as HTMLElement;
-  const closeButton = document.getElementById("close-modal") as HTMLElement;
+  const closeResultButton = document.getElementById(
+    "close-result-modal"
+  ) as HTMLElement;
+  const privacyModal = document.getElementById("privacy-modal") as HTMLElement;
+  const closePrivacyButton = document.getElementById(
+    "close-privacy-modal"
+  ) as HTMLElement;
+
+  // Habilitar/deshabilitar formulario según checkbox
+  privacyCheckbox.addEventListener("change", () => {
+    const isChecked = privacyCheckbox.checked;
+    emailInput.disabled = !isChecked;
+    submitButton.disabled = !isChecked;
+  });
+
+  // Abrir modal de Aviso de Privacidad
+  privacyLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    privacyModal.classList.remove("hidden");
+    privacyModal.classList.add("flex");
+  });
+
+  // Cerrar modal de Aviso de Privacidad
+  closePrivacyButton.addEventListener("click", () => {
+    privacyModal.classList.add("hidden");
+    privacyModal.classList.remove("flex");
+  });
+
+  // Cerrar modal de privacidad con overlay o Escape
+  privacyModal.addEventListener("click", (e) => {
+    if (e.target === privacyModal) {
+      closePrivacyButton.click();
+    }
+  });
 
   // Interceptar submit del formulario
   form.addEventListener("submit", async (e) => {
@@ -195,27 +493,32 @@ import { Mail, Sparkles, X } from "@lucide/astro";
       `;
     }
 
-    modal.classList.remove("hidden");
-    modal.classList.add("flex");
+    resultModal.classList.remove("hidden");
+    resultModal.classList.add("flex");
   }
 
-  // Cerrar modal
-  closeButton.addEventListener("click", () => {
-    modal.classList.add("hidden");
-    modal.classList.remove("flex");
+  // Cerrar modal de resultado
+  closeResultButton.addEventListener("click", () => {
+    resultModal.classList.add("hidden");
+    resultModal.classList.remove("flex");
   });
 
-  // Cerrar al hacer click en el overlay
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) {
-      closeButton.click();
+  // Cerrar modal de resultado con overlay
+  resultModal.addEventListener("click", (e) => {
+    if (e.target === resultModal) {
+      closeResultButton.click();
     }
   });
 
-  // Cerrar con la tecla Escape
+  // Cerrar modales con la tecla Escape
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && modal.classList.contains("flex")) {
-      closeButton.click();
+    if (e.key === "Escape") {
+      if (resultModal.classList.contains("flex")) {
+        closeResultButton.click();
+      }
+      if (privacyModal.classList.contains("flex")) {
+        closePrivacyButton.click();
+      }
     }
   });
 </script>
