@@ -3,3 +3,7 @@ dist
 
 // dependencies
 node_modules
+
+// Documentation (may contain code examples that don't parse)
+.agents
+.docs
