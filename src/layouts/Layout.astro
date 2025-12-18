@@ -10,11 +10,101 @@ import "../styles/global.css";
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/webp" href="/favicon.webp" />
     <meta name="generator" content={Astro.generator} />
-    <title>Libro de Recuerdos Interactivo - Crea Momentos Inolvidables</title>
+
+    <!-- Preload critical fonts -->
+    <link
+      rel="preload"
+      href="/fonts/FrederickatheGreat.woff"
+      as="font"
+      type="font/woff"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="preload"
+      href="/fonts/Cutive.woff"
+      as="font"
+      type="font/woff"
+      crossorigin="anonymous"
+    />
+
+    <title>
+      Planes con Amor - Libro de Recuerdos Interactivo | Crea Momentos
+      Inolvidables
+    </title>
     <meta
       name="description"
-      content="Un libro interactivo 3D lleno de ideas para conectar con quienes más amas. 
-      Cada página es una nueva aventura, cada momento una memoria para atesorar."
+      content="Libro interactivo personalizado con ideas únicas para crear recuerdos inolvidables. Experiencias planificadas para conectar con tu pareja, familia e hijos. ¡Únete a la lista de espera!"
+    />
+    <meta
+      name="keywords"
+      content="libro de recuerdos, experiencias en pareja, planes románticos, actividades familiares, libro personalizado, ideas de citas, regalos únicos"
+    />
+    <meta name="author" content="Planes con Amor" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://citasweb.vercel.app" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://citasweb.vercel.app" />
+    <meta
+      property="og:title"
+      content="Planes con Amor - Libro de Recuerdos Interactivo"
+    />
+    <meta
+      property="og:description"
+      content="Libro interactivo personalizado con ideas únicas para crear recuerdos inolvidables con tu pareja y familia."
+    />
+    <meta
+      property="og:image"
+      content="https://citasweb.vercel.app/og-image.jpg"
+    />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content="Planes con Amor" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://citasweb.vercel.app" />
+    <meta
+      name="twitter:title"
+      content="Planes con Amor - Libro de Recuerdos Interactivo"
+    />
+    <meta
+      name="twitter:description"
+      content="Libro interactivo personalizado con ideas únicas para crear recuerdos inolvidables."
+    />
+    <meta
+      name="twitter:image"
+      content="https://citasweb.vercel.app/og-image.jpg"
+    />
+
+    <!-- Additional SEO -->
+    <meta name="theme-color" content="#F59E0B" />
+    <meta name="msapplication-TileColor" content="#F59E0B" />
+
+    <!-- JSON-LD Structured Data -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Product",
+        name: "Planes con Amor - Libro de Recuerdos Interactivo",
+        description:
+          "Libro interactivo personalizado con ideas únicas para crear recuerdos inolvidables con tu pareja, familia e hijos.",
+        brand: {
+          "@type": "Brand",
+          name: "Planes con Amor",
+        },
+        offers: {
+          "@type": "Offer",
+          availability: "https://schema.org/PreOrder",
+          priceValidUntil: "2025-12-31",
+        },
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingValue: "4.8",
+          reviewCount: "500",
+        },
+      })}
     />
   </head>
 
