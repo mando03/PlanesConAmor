@@ -157,13 +157,14 @@ const hasResult = isSuccess || errorMessage;
   const closeButton = document.getElementById("close-modal");
 
   if (modal && closeButton) {
+    // Limpiar POST del historial INMEDIATAMENTE para evitar mensaje de reenvío
+    window.history.replaceState({}, "", window.location.pathname);
+
     // Cerrar con el botón X
     closeButton.addEventListener("click", () => {
       modal.classList.add("opacity-0", "pointer-events-none");
       setTimeout(() => {
         modal.remove();
-        // Limpiar POST del historial para evitar mensaje de reenvío
-        window.history.replaceState({}, "", window.location.pathname);
       }, 300);
     });
 
