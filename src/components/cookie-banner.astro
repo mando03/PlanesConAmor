@@ -1,0 +1,222 @@
+---
+import { Cookie, X } from "@lucide/astro";
+---
+
+<!-- Banner de Cookies -->
+<div
+  id="cookie-banner"
+  class="animate-slide-in fixed bottom-4 left-4 z-50 hidden w-full max-w-md rounded-2xl border-2 border-gray-200 bg-white p-6 shadow-2xl sm:block"
+>
+  <button
+    id="close-banner"
+    type="button"
+    class="absolute top-3 right-3 rounded-full p-1 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
+    aria-label="Cerrar sin decidir"
+  >
+    <X class="h-5 w-5" />
+  </button>
+
+  <div class="mb-4 flex items-start gap-3">
+    <div
+      class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-amber-100 to-rose-100"
+    >
+      <Cookie class="h-6 w-6 text-amber-700" />
+    </div>
+    <div>
+      <h3 class="font-fredericka mb-2 text-xl font-bold text-gray-900">
+        Cookies y Privacidad
+      </h3>
+      <p class="font-cutive text-sm leading-relaxed text-gray-600">
+        Usamos cookies para analizar el tráfico del sitio y mejorar tu
+        experiencia. Tus datos son anónimos y nunca se comparten con terceros.
+      </p>
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-2 sm:flex-row">
+    <button
+      id="accept-cookies"
+      type="button"
+      class="font-cutive flex-1 rounded-lg bg-linear-to-r from-amber-600 to-rose-600 px-4 py-2.5 text-sm font-medium text-white transition-all hover:from-amber-700 hover:to-rose-700"
+    >
+      Aceptar cookies
+    </button>
+    <button
+      id="reject-cookies"
+      type="button"
+      class="font-cutive flex-1 rounded-lg border-2 border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 transition-all hover:bg-gray-50"
+    >
+      Rechazar
+    </button>
+  </div>
+</div>
+
+<!-- Banner móvil (bottom full width) -->
+<div
+  id="cookie-banner-mobile"
+  class="animate-slide-up fixed inset-x-0 bottom-0 z-50 hidden border-t-2 border-gray-200 bg-white p-4 shadow-2xl sm:hidden"
+>
+  <button
+    id="close-banner-mobile"
+    type="button"
+    class="absolute top-3 right-3 rounded-full p-1 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
+    aria-label="Cerrar sin decidir"
+  >
+    <X class="h-4 w-4" />
+  </button>
+
+  <div class="mb-3 flex items-start gap-3">
+    <div
+      class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-linear-to-br from-amber-100 to-rose-100"
+    >
+      <Cookie class="h-5 w-5 text-amber-700" />
+    </div>
+    <div>
+      <h3 class="font-fredericka mb-1 text-lg font-bold text-gray-900">
+        Cookies
+      </h3>
+      <p class="font-cutive text-xs leading-relaxed text-gray-600">
+        Usamos cookies para analytics. Datos anónimos, nunca compartidos.
+      </p>
+    </div>
+  </div>
+
+  <div class="flex gap-2">
+    <button
+      id="accept-cookies-mobile"
+      type="button"
+      class="font-cutive flex-1 rounded-lg bg-linear-to-r from-amber-600 to-rose-600 px-4 py-2 text-sm font-medium text-white transition-all hover:from-amber-700 hover:to-rose-700"
+    >
+      Aceptar
+    </button>
+    <button
+      id="reject-cookies-mobile"
+      type="button"
+      class="font-cutive flex-1 rounded-lg border-2 border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-all hover:bg-gray-50"
+    >
+      Rechazar
+    </button>
+  </div>
+</div>
+
+<script is:inline>
+  // Esperar a que el DOM esté completamente cargado
+  document.addEventListener("DOMContentLoaded", function () {
+    // Función para cargar script de Datafast
+    function loadDatafastScript() {
+      const script = document.createElement("script");
+      script.defer = true;
+      script.setAttribute("data-website-id", "dfid_EqWUIlwq5ZQi7Qp2q1DeA");
+      script.setAttribute("data-domain", "planes-con-amor.vercel.app");
+      script.src = "https://datafa.st/js/script.js";
+      document.head.appendChild(script);
+    }
+
+    // Verificar consentimiento existente
+    const consent = localStorage?.getItem("cookie-consent");
+    const banner = document.getElementById("cookie-banner");
+    const bannerMobile = document.getElementById("cookie-banner-mobile");
+
+    if (!consent) {
+      // Mostrar banner apropiado según el tamaño de pantalla
+      const isMobile = window.innerWidth < 640; // 640px = sm breakpoint de Tailwind
+      if (isMobile) {
+        if (bannerMobile) bannerMobile.style.display = "block";
+      } else {
+        if (banner) banner.style.display = "block";
+      }
+    }
+
+    // Función para ocultar banners
+    function hideBanners() {
+      if (banner) banner.style.display = "none";
+      if (bannerMobile) bannerMobile.style.display = "none";
+    }
+
+    // Desktop: Aceptar cookies
+    const acceptBtn = document.getElementById("accept-cookies");
+    if (acceptBtn) {
+      acceptBtn.addEventListener("click", function () {
+        localStorage.setItem("cookie-consent", "accepted");
+        hideBanners();
+        loadDatafastScript();
+      });
+    }
+
+    // Desktop: Rechazar cookies
+    const rejectBtn = document.getElementById("reject-cookies");
+    if (rejectBtn) {
+      rejectBtn.addEventListener("click", function () {
+        localStorage.setItem("cookie-consent", "rejected");
+        hideBanners();
+      });
+    }
+
+    // Desktop: Cerrar sin decidir
+    const closeBtn = document.getElementById("close-banner");
+    if (closeBtn) {
+      closeBtn.addEventListener("click", function () {
+        hideBanners();
+      });
+    }
+
+    // Mobile: Aceptar cookies
+    const acceptBtnMobile = document.getElementById("accept-cookies-mobile");
+    if (acceptBtnMobile) {
+      acceptBtnMobile.addEventListener("click", function () {
+        localStorage.setItem("cookie-consent", "accepted");
+        hideBanners();
+        loadDatafastScript();
+      });
+    }
+
+    // Mobile: Rechazar cookies
+    const rejectBtnMobile = document.getElementById("reject-cookies-mobile");
+    if (rejectBtnMobile) {
+      rejectBtnMobile.addEventListener("click", function () {
+        localStorage.setItem("cookie-consent", "rejected");
+        hideBanners();
+      });
+    }
+
+    // Mobile: Cerrar sin decidir
+    const closeBtnMobile = document.getElementById("close-banner-mobile");
+    if (closeBtnMobile) {
+      closeBtnMobile.addEventListener("click", function () {
+        hideBanners();
+      });
+    }
+  });
+</script>
+
+<style>
+  @keyframes slide-in {
+    from {
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-slide-in {
+    animation: slide-in 0.4s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slide-up 0.4s ease-out;
+  }
+</style>

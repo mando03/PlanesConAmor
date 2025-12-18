@@ -1,5 +1,6 @@
 ---
 import Analytics from "@vercel/analytics/astro";
+import CookieBanner from "../components/cookie-banner.astro";
 import "../styles/global.css";
 ---
 
@@ -106,16 +107,25 @@ import "../styles/global.css";
         },
       })}
     />
-    <script
-      defer
-      data-website-id="dfid_EqWUIlwq5ZQi7Qp2q1DeA"
-      data-domain="planes-con-amor.vercel.app"
-      src="https://datafa.st/js/script.js"></script>
+
+    <!-- DataFast Analytics: Solo carga si el usuario aceptó cookies -->
+    <script is:inline>
+      const consent = localStorage?.getItem("cookie-consent");
+      if (consent === "accepted") {
+        const script = document.createElement("script");
+        script.defer = true;
+        script.setAttribute("data-website-id", "dfid_EqWUIlwq5ZQi7Qp2q1DeA");
+        script.setAttribute("data-domain", "planes-con-amor.vercel.app");
+        script.src = "https://datafa.st/js/script.js";
+        document.head.appendChild(script);
+      }
+    </script>
   </head>
 
   <body>
     <Analytics />
     <slot />
+    <CookieBanner />
   </body>
 
   <style>
