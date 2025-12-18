@@ -4,7 +4,7 @@ import { Mail, Sparkles } from "@lucide/astro";
 
 <section
   id="waitlist"
-  class="relative overflow-hidden bg-linear-to-br from-amber-50 via-rose-50 to-purple-50 px-4 py-36"
+  class="relative overflow-hidden bg-linear-to-br from-amber-50 via-rose-50 to-purple-50 px-4 py-32"
 >
   <div class="absolute top-0 left-0 h-full w-full">
     <div
@@ -20,16 +20,17 @@ import { Mail, Sparkles } from "@lucide/astro";
   <div class="relative z-10 mx-auto max-w-3xl">
     <div class="mb-12 text-center">
       <div
-        class="mb-6 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-white/80 px-4 py-2 backdrop-blur-sm"
+        class="mb-6 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-white/80 px-4 py-2 backdrop-blur-sm md:px-6 md:py-3"
       >
-        <Sparkles class="h-4 w-4 text-amber-600" />
-        <span class="font-cutive-mono text-sm font-medium text-amber-900"
+        <Sparkles class="h-4 w-4 text-amber-600 md:h-5 md:w-5" />
+        <span
+          class="font-cutive-mono text-sm font-medium text-amber-900 md:text-base"
           >Acceso anticipado</span
         >
       </div>
 
       <h2
-        class="font-fredericka mb-6 text-4xl font-bold text-balance md:text-6xl"
+        class="font-fredericka mb-6 text-5xl font-bold text-balance md:text-7xl"
       >
         Sé de los primeros en{" "}
         <span
@@ -38,7 +39,7 @@ import { Mail, Sparkles } from "@lucide/astro";
           crear recuerdos
         </span>
       </h2>
-      <p class="font-cutive text-xl text-pretty text-gray-600">
+      <p class="font-cutive text-base text-pretty text-gray-600 xl:text-xl">
         Únete a nuestra lista de espera y recibe noticas, actualizaciones y
         acceso exclusivo cuando lancemos.
       </p>
