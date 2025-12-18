@@ -46,7 +46,7 @@ const hasResult = isSuccess || errorMessage;
         </span>
       </h2>
       <p class="font-cutive text-base text-pretty text-gray-600 xl:text-xl">
-        Únete a nuestra lista de espera y recibe noticas, actualizaciones y
+        Únete a nuestra lista de espera y recibe noticias, actualizaciones y
         acceso exclusivo cuando lancemos.
       </p>
     </div>
@@ -162,6 +162,8 @@ const hasResult = isSuccess || errorMessage;
       modal.classList.add("opacity-0", "pointer-events-none");
       setTimeout(() => {
         modal.remove();
+        // Limpiar POST del historial para evitar mensaje de reenvío
+        window.history.replaceState({}, "", window.location.pathname);
       }, 300);
     });
 
