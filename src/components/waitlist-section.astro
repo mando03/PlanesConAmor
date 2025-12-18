@@ -1,11 +1,5 @@
 ---
-import { Mail, Sparkles, AlertCircle, X } from "@lucide/astro";
-import { actions } from "astro:actions";
-
-const result = Astro.getActionResult(actions.joinWaitlist);
-const isSuccess = result && !result.error;
-const errorMessage = result?.error?.message;
-const hasResult = isSuccess || errorMessage;
+import { Mail, Sparkles, X } from "@lucide/astro";
 ---
 
 <section
@@ -53,8 +47,7 @@ const hasResult = isSuccess || errorMessage;
 
     <!-- Formulario -->
     <form
-      method="POST"
-      action={actions.joinWaitlist}
+      id="waitlist-form"
       class="mx-auto flex max-w-xl flex-col gap-3 sm:flex-row"
     >
       <div class="relative flex-1">
@@ -62,6 +55,7 @@ const hasResult = isSuccess || errorMessage;
           class="absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 text-gray-500"
         />
         <input
+          id="email-input"
           type="email"
           name="email"
           placeholder="tu@email.com"
@@ -81,10 +75,12 @@ const hasResult = isSuccess || errorMessage;
       />
 
       <button
+        id="submit-button"
         type="submit"
-        class="font-cutive h-14 rounded-md bg-linear-to-r from-amber-600 to-rose-600 px-8 text-base font-medium text-white transition-all hover:from-amber-700 hover:to-rose-700"
+        class="font-cutive h-14 rounded-md bg-linear-to-r from-amber-600 to-rose-600 px-8 text-base font-medium text-white transition-all hover:from-amber-700 hover:to-rose-700 disabled:cursor-not-allowed disabled:opacity-50"
       >
-        Unirme ahora
+        <span id="button-text">Unirme ahora</span>
+        <span id="button-loading" class="hidden">Enviando...</span>
       </button>
     </form>
 
@@ -97,91 +93,131 @@ const hasResult = isSuccess || errorMessage;
   </div>
 </section>
 
-<!-- Modal de Resultado -->
-{
-  hasResult && (
-    <div
-      id="result-modal"
-      class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
-      role="dialog"
-      aria-modal="true"
+<!-- Modal de Resultado (oculto por defecto) -->
+<div
+  id="result-modal"
+  class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
+  role="dialog"
+  aria-modal="true"
+>
+  <div
+    class="animate-fade-in relative w-full max-w-md rounded-2xl border-2 bg-white p-8 shadow-2xl"
+  >
+    {/* Botón cerrar */}
+    <button
+      id="close-modal"
+      type="button"
+      class="absolute top-4 right-4 rounded-full p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
+      aria-label="Cerrar"
     >
-      <div class="animate-fade-in relative w-full max-w-md rounded-2xl border-2 bg-white p-8 shadow-2xl">
-        {/* Botón cerrar */}
-        <button
-          id="close-modal"
-          type="button"
-          class="absolute top-4 right-4 rounded-full p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
-          aria-label="Cerrar"
-        >
-          <X class="h-5 w-5" />
-        </button>
+      <X class="h-5 w-5" />
+    </button>
 
-        {/* Contenido del modal - Éxito */}
-        {isSuccess && (
-          <div class="text-center">
-            <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-linear-to-br from-emerald-400 to-teal-400">
-              <Sparkles class="h-8 w-8 text-white" />
-            </div>
-            <h3 class="font-fredericka mb-3 text-3xl font-bold text-gray-900">
-              ¡Bienvenido a la comunidad!
-            </h3>
-            <p class="font-cutive text-base text-gray-600">
-              Te notificaremos cuando estemos listos para lanzar. Revisa tu
-              correo para estar al tanto de las últimas noticias y
-              actualizaciones.
-            </p>
-          </div>
-        )}
-
-        {/* Contenido del modal - Error */}
-        {errorMessage && (
-          <div class="text-center">
-            <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
-              <AlertCircle class="h-8 w-8 text-red-600" />
-            </div>
-            <h3 class="font-fredericka mb-3 text-2xl font-bold text-gray-900">
-              Oops, algo salió mal
-            </h3>
-            <p class="font-cutive text-base text-red-800">{errorMessage}</p>
-          </div>
-        )}
-      </div>
-    </div>
-  )
-}
+    {/* Contenido del modal - Se llena dinámicamente */}
+    <div id="modal-content"></div>
+  </div>
+</div>
 
 <script>
-  // Cerrar modal al hacer click en el botón o en el overlay
-  const modal = document.getElementById("result-modal");
-  const closeButton = document.getElementById("close-modal");
+  import { actions } from "astro:actions";
 
-  if (modal && closeButton) {
-    // Limpiar POST del historial INMEDIATAMENTE para evitar mensaje de reenvío
-    window.history.replaceState({}, "", window.location.pathname);
+  const form = document.getElementById("waitlist-form") as HTMLFormElement;
+  const submitButton = document.getElementById(
+    "submit-button"
+  ) as HTMLButtonElement;
+  const buttonText = document.getElementById("button-text") as HTMLElement;
+  const buttonLoading = document.getElementById(
+    "button-loading"
+  ) as HTMLElement;
+  const modal = document.getElementById("result-modal") as HTMLElement;
+  const modalContent = document.getElementById("modal-content") as HTMLElement;
+  const closeButton = document.getElementById("close-modal") as HTMLElement;
 
-    // Cerrar con el botón X
-    closeButton.addEventListener("click", () => {
-      modal.classList.add("opacity-0", "pointer-events-none");
-      setTimeout(() => {
-        modal.remove();
-      }, 300);
-    });
+  // Interceptar submit del formulario
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-    // Cerrar al hacer click en el overlay (fondo oscuro)
-    modal.addEventListener("click", (e) => {
-      if (e.target === modal) {
-        closeButton.click();
+    // Estado de loading
+    submitButton.disabled = true;
+    buttonText.classList.add("hidden");
+    buttonLoading.classList.remove("hidden");
+
+    try {
+      const formData = new FormData(form);
+      const { error } = await actions.joinWaitlist(formData);
+
+      // Mostrar modal con resultado
+      if (error) {
+        showModal("error", error.message);
+      } else {
+        showModal("success", "");
+        form.reset();
       }
-    });
+    } catch {
+      showModal("error", "Ocurrió un error inesperado. Intenta nuevamente.");
+    } finally {
+      // Restaurar botón
+      submitButton.disabled = false;
+      buttonText.classList.remove("hidden");
+      buttonLoading.classList.add("hidden");
+    }
+  });
 
-    // Cerrar con la tecla Escape
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") {
-        closeButton.click();
-      }
-    });
+  // Función para mostrar modal
+  function showModal(type: "success" | "error", message: string) {
+    if (type === "success") {
+      modalContent.innerHTML = `
+        <div class="text-center">
+          <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-linear-to-br from-emerald-400 to-teal-400">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/></svg>
+          </div>
+          <h3 class="font-fredericka mb-3 text-3xl font-bold text-gray-900">
+            ¡Bienvenido a la comunidad!
+          </h3>
+          <p class="font-cutive text-base text-gray-600">
+            Te notificaremos cuando estemos listos para lanzar. Revisa tu
+            correo para estar al tanto de las últimas noticias y
+            actualizaciones.
+          </p>
+        </div>
+      `;
+    } else {
+      modalContent.innerHTML = `
+        <div class="text-center">
+          <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-600"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+          </div>
+          <h3 class="font-fredericka mb-3 text-2xl font-bold text-gray-900">
+            Oops, algo salió mal
+          </h3>
+          <p class="font-cutive text-base text-red-800">${message}</p>
+        </div>
+      `;
+    }
+
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
   }
+
+  // Cerrar modal
+  closeButton.addEventListener("click", () => {
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+  });
+
+  // Cerrar al hacer click en el overlay
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      closeButton.click();
+    }
+  });
+
+  // Cerrar con la tecla Escape
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal.classList.contains("flex")) {
+      closeButton.click();
+    }
+  });
 </script>
 
 <style>
