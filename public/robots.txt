@@ -1,0 +1,33 @@
+# robots.txt para Planes con Amor
+
+# Permitir a todos los bots rastrear todo el sitio
+User-agent: *
+Allow: /
+
+# Bloquear carpetas administrativas y de build
+Disallow: /api/
+Disallow: /_astro/
+Disallow: /.vercel/
+
+# Sitemap
+Sitemap: https://planes-con-amor.vercel.app/sitemap.xml
+
+# Bots específicos
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Bloquear bots maliciosos conocidos
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
