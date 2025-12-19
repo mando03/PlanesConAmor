@@ -134,8 +134,23 @@ import { Mail, Sparkles, X } from "@lucide/astro";
       <X class="h-5 w-5" />
     </button>
 
-    {/* Contenido del modal - Se llena dinámicamente */}
-    <div id="modal-content"></div>
+    {/* Contenido del modal - Texto dinámico, estructura fija */}
+    <div id="modal-content">
+      <div class="text-center">
+        <div
+          id="modal-icon"
+          class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full"
+        >
+          <span id="modal-icon-svg"></span>
+        </div>
+        <h3
+          id="modal-title"
+          class="font-fredericka mb-3 text-3xl font-bold text-gray-900"
+        >
+        </h3>
+        <p id="modal-message" class="font-cutive text-base text-gray-600"></p>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -395,7 +410,10 @@ import { Mail, Sparkles, X } from "@lucide/astro";
 
   // Modales
   const resultModal = document.getElementById("result-modal") as HTMLElement;
-  const modalContent = document.getElementById("modal-content") as HTMLElement;
+  const modalIcon = document.getElementById("modal-icon") as HTMLElement;
+  const modalIconSvg = document.getElementById("modal-icon-svg") as HTMLElement;
+  const modalTitle = document.getElementById("modal-title") as HTMLElement;
+  const modalMessage = document.getElementById("modal-message") as HTMLElement;
   const closeResultButton = document.getElementById(
     "close-result-modal"
   ) as HTMLElement;
@@ -442,13 +460,17 @@ import { Mail, Sparkles, X } from "@lucide/astro";
 
     try {
       const formData = new FormData(form);
-      const { error } = await actions.joinWaitlist(formData);
+      const { data, error } = await actions.joinWaitlist(formData);
 
       // Mostrar modal con resultado
       if (error) {
         showModal("error", error.message);
       } else {
-        showModal("success", "");
+        const status =
+          data?.status === "already_registered"
+            ? "already_registered"
+            : "registered";
+        showModal("success", data?.message ?? "", status);
         form.reset();
       }
     } catch {
@@ -462,35 +484,34 @@ import { Mail, Sparkles, X } from "@lucide/astro";
   });
 
   // Función para mostrar modal
-  function showModal(type: "success" | "error", message: string) {
+  function showModal(
+    type: "success" | "error",
+    message: string,
+    status: "registered" | "already_registered" = "registered"
+  ) {
     if (type === "success") {
-      modalContent.innerHTML = `
-        <div class="text-center">
-          <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-linear-to-br from-emerald-400 to-teal-400">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/></svg>
-          </div>
-          <h3 class="font-fredericka mb-3 text-3xl font-bold text-gray-900">
-            ¡Bienvenido a la comunidad!
-          </h3>
-          <p class="font-cutive text-base text-gray-600">
-            Te notificaremos cuando estemos listos para lanzar. Revisa tu
-            correo para estar al tanto de las últimas noticias y
-            actualizaciones.
-          </p>
-        </div>
-      `;
+      const title =
+        status === "already_registered"
+          ? "Ya estás registrado"
+          : "¡Bienvenido a la comunidad!";
+      const bodyText =
+        message ||
+        "Te notificaremos cuando estemos listos para lanzar. Revisa tu correo para estar al tanto de las últimas noticias y actualizaciones.";
+      modalIcon.className =
+        "mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-linear-to-br from-emerald-400 to-teal-400";
+      modalIconSvg.innerHTML =
+        '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/></svg>';
+      modalTitle.textContent = title;
+      modalMessage.textContent = bodyText;
+      modalMessage.className = "font-cutive text-base text-gray-600";
     } else {
-      modalContent.innerHTML = `
-        <div class="text-center">
-          <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-600"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
-          </div>
-          <h3 class="font-fredericka mb-3 text-2xl font-bold text-gray-900">
-            Oops, algo salió mal
-          </h3>
-          <p class="font-cutive text-base text-red-800">${message}</p>
-        </div>
-      `;
+      modalIcon.className =
+        "mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-100";
+      modalIconSvg.innerHTML =
+        '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-600"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>';
+      modalTitle.textContent = "Oops, algo salió mal";
+      modalMessage.textContent = message;
+      modalMessage.className = "font-cutive text-base text-red-800";
     }
 
     resultModal.classList.remove("hidden");
