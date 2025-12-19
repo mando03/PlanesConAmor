@@ -110,7 +110,7 @@ Crea un archivo `.env` en la raíz del proyecto:
 
 ```env
 SUPABASE_URL=https://tu-proyecto.supabase.co
-SUPABASE_KEY=tu-anon-key-publica
+SUPABASE_SERVICE_ROLE_KEY=tu-service-role-key
 ```
 
 ### 3. Configurar Base de Datos
@@ -130,12 +130,12 @@ Esto creará:
 
 ## Variables de Entorno
 
-| Variable       | Descripción                  | Requerida |
-| -------------- | ---------------------------- | --------- |
-| `SUPABASE_URL` | URL del proyecto de Supabase | Sí        |
-| `SUPABASE_KEY` | Anon key pública             | Sí        |
+| Variable                    | Descripción                      | Requerida |
+| --------------------------- | -------------------------------- | --------- |
+| `SUPABASE_URL`              | URL del proyecto de Supabase     | Sí        |
+| `SUPABASE_SERVICE_ROLE_KEY` | Service role key (solo servidor) | Sí        |
 
-> Las variables se obtienen desde el dashboard de Supabase en Settings > API
+> Las variables se obtienen desde el dashboard de Supabase en Settings > API. Nunca expongas la service role key en el cliente.
 
 ## Comandos Disponibles
 
@@ -170,9 +170,8 @@ pnpm build
 
 Políticas implementadas en Supabase:
 
-- ✅ **Allow public insert**: Usuarios anónimos pueden insertar emails
-- ✅ **Allow public select**: Solo para verificar duplicados
 - ✅ **Service role full access**: Backend tiene acceso completo
+- ✅ **No public select/insert**: Sin acceso público a la tabla
 - ✅ **Block public update/delete**: Sin modificaciones desde cliente
 
 ### Honeypot
@@ -205,7 +204,7 @@ if (website && website.trim() !== "") {
 
    ```
    SUPABASE_URL=https://tu-proyecto.supabase.co
-   SUPABASE_KEY=tu-anon-key
+   SUPABASE_SERVICE_ROLE_KEY=tu-service-role-key
    ```
 
 3. **Deploy**
