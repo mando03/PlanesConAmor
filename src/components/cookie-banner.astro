@@ -104,12 +104,9 @@ import { Cookie, X } from "@lucide/astro";
   document.addEventListener("DOMContentLoaded", function () {
     // Función para cargar script de Datafast
     function loadDatafastScript() {
-      const script = document.createElement("script");
-      script.defer = true;
-      script.setAttribute("data-website-id", "dfid_EqWUIlwq5ZQi7Qp2q1DeA");
-      script.setAttribute("data-domain", "planes-con-amor.vercel.app");
-      script.src = "https://datafa.st/js/script.js";
-      document.head.appendChild(script);
+      if (typeof window !== "undefined" && window.loadDatafast) {
+        window.loadDatafast();
+      }
     }
 
     // Verificar consentimiento existente
@@ -117,7 +114,9 @@ import { Cookie, X } from "@lucide/astro";
     const banner = document.getElementById("cookie-banner");
     const bannerMobile = document.getElementById("cookie-banner-mobile");
 
-    if (!consent) {
+    if (consent === "accepted") {
+      loadDatafastScript();
+    } else if (!consent) {
       // Mostrar banner apropiado según el tamaño de pantalla
       const isMobile = window.innerWidth < 640; // 640px = sm breakpoint de Tailwind
       if (isMobile) {

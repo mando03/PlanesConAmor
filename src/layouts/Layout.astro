@@ -108,17 +108,26 @@ import "../styles/global.css";
       })}
     />
 
-    <!-- DataFast Analytics: Solo carga si el usuario aceptó cookies -->
+    <!-- DataFast Analytics: Definir loader en head, ejecutar solo con consentimiento -->
     <script is:inline>
-      const consent = localStorage?.getItem("cookie-consent");
-      if (consent === "accepted") {
+      window.__datafastLoaded = false;
+      window.__datafastConfig = {
+        websiteId: "dfid_EqWUIlwq5ZQi7Qp2q1DeA",
+        domain: "planes-con-amor.vercel.app",
+      };
+      window.loadDatafast = function () {
+        if (window.__datafastLoaded) return;
         const script = document.createElement("script");
         script.defer = true;
-        script.setAttribute("data-website-id", "dfid_EqWUIlwq5ZQi7Qp2q1DeA");
-        script.setAttribute("data-domain", "planes-con-amor.vercel.app");
+        script.setAttribute(
+          "data-website-id",
+          window.__datafastConfig.websiteId
+        );
+        script.setAttribute("data-domain", window.__datafastConfig.domain);
         script.src = "https://datafa.st/js/script.js";
         document.head.appendChild(script);
-      }
+        window.__datafastLoaded = true;
+      };
     </script>
   </head>
 
