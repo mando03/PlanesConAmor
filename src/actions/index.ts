@@ -39,35 +39,20 @@ export const server = {
         });
       }
       try {
-        // Verificar si el email ya existe
-        const { data: existingEmail, error: checkError } = await supabase
-          .from("waitlist")
-          .select("email")
-          .eq("email", email.toLowerCase())
-          .single();
-
-        if (checkError && checkError.code !== "PGRST116") {
-          // PGRST116 = no rows returned (esperado si no existe)
-          throw new ActionError({
-            code: "INTERNAL_SERVER_ERROR",
-            message: "Error al verificar el email. Intenta nuevamente.",
-          });
-        }
-
-        // Si el email ya existe, retornar error específico
-        if (existingEmail) {
-          throw new ActionError({
-            code: "CONFLICT",
-            message: "Este email ya está registrado en la lista de espera.",
-          });
-        }
-
         // Insertar el nuevo email
         const { error: insertError } = await supabase
           .from("waitlist")
           .insert([{ email: email.toLowerCase() }]);
 
         if (insertError) {
+          if (insertError.code === "23505") {
+            return {
+              success: true,
+              status: "already_registered",
+              message:
+                "Ya estás registrado en la lista de espera. Te avisaremos del lanzamiento en tu correo.",
+            };
+          }
           throw new ActionError({
             code: "INTERNAL_SERVER_ERROR",
             message:
@@ -77,6 +62,7 @@ export const server = {
 
         return {
           success: true,
+          status: "registered",
           message: "¡Te has unido a la lista de espera exitosamente!",
         };
       } catch (error) {
