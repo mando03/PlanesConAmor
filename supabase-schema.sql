@@ -23,21 +23,7 @@ COMMENT ON COLUMN waitlist.created_at IS 'Fecha y hora de registro';
 -- Habilitar RLS en la tabla waitlist
 ALTER TABLE waitlist ENABLE ROW LEVEL SECURITY;
 
--- Política 1: Permitir INSERT público (solo para registros nuevos)
--- Los usuarios anónimos pueden insertar emails
-CREATE POLICY "Allow public insert" ON waitlist
-  FOR INSERT
-  TO anon
-  WITH CHECK (true);
-
--- Política 2: Permitir SELECT público solo para verificar duplicados
--- Esto permite que el cliente verifique si un email ya existe
-CREATE POLICY "Allow public select for duplicate check" ON waitlist
-  FOR SELECT
-  TO anon
-  USING (true);
-
--- Política 3: Los usuarios autenticados (service role) tienen acceso completo
+-- Política 1: Los usuarios autenticados (service role) tienen acceso completo
 -- Esto permite que el backend de Astro Actions funcione correctamente
 CREATE POLICY "Service role full access" ON waitlist
   FOR ALL
@@ -45,7 +31,7 @@ CREATE POLICY "Service role full access" ON waitlist
   USING (true)
   WITH CHECK (true);
 
--- Política 4: Bloquear UPDATE y DELETE para usuarios anónimos
+-- Política 2: Bloquear UPDATE y DELETE para usuarios anónimos
 -- Nadie puede actualizar o eliminar registros desde el cliente
 CREATE POLICY "Block public update" ON waitlist
   FOR UPDATE
@@ -77,13 +63,6 @@ CREATE INDEX IF NOT EXISTS idx_rate_limits_identifier_action
 
 -- Habilitar RLS en rate_limits
 ALTER TABLE rate_limits ENABLE ROW LEVEL SECURITY;
-
--- Permitir INSERT/SELECT/UPDATE público para rate limiting
-CREATE POLICY "Allow rate limit operations" ON rate_limits
-  FOR ALL
-  TO anon
-  USING (true)
-  WITH CHECK (true);
 
 -- Función para limpiar registros expirados automáticamente
 CREATE OR REPLACE FUNCTION cleanup_expired_rate_limits()
