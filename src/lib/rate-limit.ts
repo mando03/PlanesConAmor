@@ -119,15 +119,31 @@ export async function checkRateLimit(
  * Obtiene la IP del cliente desde el request de Astro
  */
 export function getClientIP(request: Request): string {
-  // Intentar obtener IP de headers comunes de proxies
-  const forwardedFor = request.headers.get("x-forwarded-for");
-  const realIP = request.headers.get("x-real-ip");
+  // Preferir headers de proxies confiables (Vercel/Cloudflare).
+  const vercelForwardedFor = request.headers.get("x-vercel-forwarded-for");
   const cfConnectingIP = request.headers.get("cf-connecting-ip"); // Cloudflare
+  const realIP = request.headers.get("x-real-ip");
+  const forwardedFor = request.headers.get("x-forwarded-for");
 
+  if (vercelForwardedFor) {
+    return vercelForwardedFor.split(",")[0].trim();
+  }
   if (cfConnectingIP) return cfConnectingIP;
   if (realIP) return realIP;
-  if (forwardedFor) return forwardedFor.split(",")[0].trim();
+
+  // Solo confiar en x-forwarded-for si estamos detrás de un proxy conocido
+  const hasTrustedProxy =
+    request.headers.has("x-vercel-id") || request.headers.has("cf-ray");
+  if (hasTrustedProxy && forwardedFor) {
+    return forwardedFor.split(",")[0].trim();
+  }
+
+  // En desarrollo/local, permitir fallback para pruebas
+  const isDev = import.meta.env.MODE === "development";
+  if (isDev && forwardedFor) {
+    return forwardedFor.split(",")[0].trim();
+  }
 
   // Fallback: usar un identificador genérico
-  return "unknown";
+  return isDev ? "127.0.0.1" : "unknown";
 }
